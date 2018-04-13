@@ -30,7 +30,7 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        final String url = "http://www.baidu.com/";
+        final String url = "https://detail.tmall.com/item.htm?id=44163831176";
         final String title = "百度";
         Browser browser = new Browser();
         BrowserView view = new BrowserView(browser);
