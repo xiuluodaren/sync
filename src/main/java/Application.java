@@ -3,6 +3,10 @@ import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigInteger;
@@ -30,21 +34,10 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        final String url = "https://detail.tmall.com/item.htm?id=44163831176";
-        final String title = "百度";
-        Browser browser = new Browser();
-        BrowserView view = new BrowserView(browser);
 
-        JFrame frame = new JFrame();
-        //禁用close功能
-//        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        //不显示标题栏,最大化,最小化,退出按钮
-//        frame.setUndecorated(true);
-        frame.add(view, BorderLayout.CENTER);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setLocationByPlatform(true);
-        frame.setVisible(true);
-        browser.loadURL(url);
+        MainFrame mainFrame = new MainFrame();
+
     }
+
 
 }
