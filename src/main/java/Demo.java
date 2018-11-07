@@ -12,9 +12,14 @@ public class Demo {
     {
         Runtime rt = Runtime.getRuntime();
         Process process = null;
-        String url = "https://detail.tmall.com/item.htm?id=575141378393";
+        String url = "https://detail.tmall.com/item.htm?id=44163831176";
+
+        String parser = Demo.class.getResource("parser.js").getFile();
+        String phantomjs = "/Users/xiuluo/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs";
+
         try {
-            process = rt.exec("D:\\Users\\Administrator\\Download\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe D:\\Users\\Administrator\\DeskTop\\sync\\src\\main\\resources\\parser.js " +url);
+            process = rt.exec(phantomjs + " "
+                    + parser + " " +url);
             InputStream in = process.getInputStream();
             InputStreamReader reader = new InputStreamReader(in, "UTF-8");
             BufferedReader br = new BufferedReader(reader);

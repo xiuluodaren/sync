@@ -7,6 +7,7 @@
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import javax.script.Invocable;
@@ -25,7 +26,7 @@ public class Task {
     {
         //获取商品详情
         try {
-            String url = "https://detail.tmall.com/item.htm?id=575141378393";
+            String url = "https://detail.tmall.com/item.htm?id=44163831176";
 
             URL httpUrl = new URL(url);
 
@@ -60,6 +61,8 @@ public class Task {
 
         //找到规格div
         Elements rows = doc.select("div[class=tb-sku]");
+
+        Element e = rows.get(0);
 
         //获取text
         String text = rows.get(0).text();

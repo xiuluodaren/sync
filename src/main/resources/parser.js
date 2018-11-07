@@ -8,7 +8,6 @@ page.onResourceTimeout = function(e) {
     console.log(page.content);
     phantom.exit(1);
 };
-
 page.open(url, function (status) {
     //Page is loaded!
     if (status !== 'success') {
