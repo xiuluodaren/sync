@@ -26,12 +26,14 @@ public class Task {
     {
         //获取商品详情
         try {
-            String url = "https://detail.tmall.com/item.htm?id=44163831176";
+//            String url = "https://detail.tmall.com/item.htm?id=44163831176";
+            String url = "https://mdskip.taobao.com/core/initItemDetail.htm?itemId=44163831176";
 
             URL httpUrl = new URL(url);
 
             HttpURLConnection connection = (HttpURLConnection) httpUrl.openConnection();
             connection.setRequestMethod("GET");
+            connection.setRequestProperty("Referer", "https://detail.tmall.com/item.htm?id=44163831176");
 
             if (200 == connection.getResponseCode()) {
                 //得到输入流
