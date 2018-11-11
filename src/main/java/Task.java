@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class Task {
 
-    private static String path = "/Users/xiuluo/Desktop";
+    public static String path = "/Users/xiuluo/Desktop";
 
     public void runTask()
     {

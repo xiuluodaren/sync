@@ -5,7 +5,10 @@ public class MainApplication {
 
         Task task = new Task();
 
-        task.runTask();
+//        task.runTask();
+
+        GenerateData generateData = new GenerateData();
+        generateData.generate();
 
     }
 
