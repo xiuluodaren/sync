@@ -12,12 +12,12 @@ public class Demo {
     {
         Runtime rt = Runtime.getRuntime();
         Process process = null;
-        String url = "https://detail.tmall.com/item.htm?id=44163831176";
-//        String url = "https://mdskip.taobao.com/core/initItemDetail.htm?itemId=44163831176";
+//        String url = "https://detail.tmall.com/item.htm?id=44163831176";
+        String url = "https://mdskip.taobao.com/core/initItemDetail.htm?itemId=44163831176";
 
         String parser = Demo.class.getResource("parser.js").getFile();
-//        String phantomjs = "/Users/xiuluo/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs";
-        String phantomjs = "D:\\Users\\Administrator\\Download\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
+        String phantomjs = "/Users/xiuluo/Downloads/phantomjs-2.1.1-macosx/bin/phantomjs";
+//        String phantomjs = "D:\\Users\\Administrator\\Download\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
 
         try {
             process = rt.exec(phantomjs + " "

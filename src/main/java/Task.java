@@ -5,6 +5,8 @@
  * 描述:
  */
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,52 +15,133 @@ import org.jsoup.select.Elements;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileReader;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Task {
 
+    private static String path = "/Users/xiuluo/Desktop";
+
     public void runTask()
     {
+
         //获取商品详情
         try {
-//            String url = "https://detail.tmall.com/item.htm?id=44163831176";
-            String url = "https://mdskip.taobao.com/core/initItemDetail.htm?itemId=44163831176";
 
-            URL httpUrl = new URL(url);
+            String[] numbers = getNumbers();
 
-            HttpURLConnection connection = (HttpURLConnection) httpUrl.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Referer", "https://detail.tmall.com/item.htm?id=44163831176");
+            int i = 0;
+            for(String number : numbers)
+            {
+                System.out.println("开始获取第" + i + "个商品:" + number + "的SKU信息");
+                String url = "https://detail.tmall.com/item.htm?id=" + number;
+//            String url = "https://mdskip.taobao.com/core/initItemDetail.htm?itemId=44163831176";
 
-            if (200 == connection.getResponseCode()) {
-                //得到输入流
-                InputStream is = connection.getInputStream();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                byte[] buffer = new byte[1024];
-                int len = 0;
-                while (-1 != (len = is.read(buffer))) {
-                    baos.write(buffer, 0, len);
-                    baos.flush();
+                URL httpUrl = new URL(url);
+
+                HttpURLConnection connection = (HttpURLConnection) httpUrl.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:59.0) Gecko/20100101 Firefox/59.0");
+                connection.setRequestProperty("Referer", "https://detail.tmall.com/item.htm?id=" + number);
+
+                if (200 == connection.getResponseCode()) {
+                    //得到输入流
+                    InputStream is = connection.getInputStream();
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[1024];
+                    int len = 0;
+                    while (-1 != (len = is.read(buffer))) {
+                        baos.write(buffer, 0, len);
+                        baos.flush();
+                    }
+                    String html = baos.toString("GBK");
+
+                    //得到的页面
+//                System.out.println(html);
+
+                    String json = analysisHTML(html);
+
+                    if (json == null)
+                    {
+                        System.out.println("获取" + number + "的SKU信息失败");
+                        i++;
+                        continue;
+                    }
+
+                    System.out.println("获取" + number + "的SKU信息成功");
+                    File file = new File(path + "/sku/" + number + ".json");
+
+                    File tempFile = new File(path + "/sku/");
+                    if (!tempFile.isDirectory())
+                    {
+                        tempFile.mkdirs();
+                    }
+
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    PrintWriter printWriter = new PrintWriter(fileOutputStream);
+                    printWriter.write(json);
+                    printWriter.flush();
+                    printWriter.close();
+
+                    i++;
+
                 }
-                String html = baos.toString("GBK");
-
-                //得到的页面
-                System.out.println(html);
-
-                analysisHTML(html);
             }
+
+            System.out.println("全部获取完毕,请到" + path + "/sku/目录查看");
+
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private void  analysisHTML(String html)
+    private String[] getNumbers()
     {
+        try{
+            File file = new File(path + "/numbers.txt");
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] b = new byte[1024];
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int len = 0;
+            while (-1 != (len = fileInputStream.read(b))) {
+                baos.write(b, 0, len);
+                baos.flush();
+            }
+
+            String numberStr = baos.toString();
+            return numberStr.split(",");
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private String analysisHTML(String html)
+    {
+        String result = "";
+
+        int start = html.indexOf("TShop.Setup(") + 12;
+
+        if (start == 11)
+        {
+            //没找到，返回
+            return null;
+        }
+
+        html = html.substring(start);
+        int end = html.indexOf(");");
+        result = html.substring(0,end);
+
+        JSONObject jsonObject = JSON.parseObject(result);
+        String json = JSON.toJSONString(jsonObject);
+
+        return json;
+
+        /*
         Document doc = Jsoup.parse(html);
 
         //找到规格div
@@ -81,7 +164,7 @@ public class Task {
 
         //颜色
         String[] colors = text.substring(sizeEnd + 6, colorEnd).split(" ");
-
+        */
 
 
     }

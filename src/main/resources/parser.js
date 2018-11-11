@@ -10,54 +10,47 @@ page.onResourceTimeout = function(e) {
     phantom.exit(1);
 };
 
-page.open(url, function (status) {
+page.settings.referer = 'https://detail.tmall.com/item.htm?id=44163831176';
+
+page.open("https://detail.tmall.com/item.htm?id=44163831176", function (status) {
     //Page is loaded!
     if (status !== 'success') {
         console.log('aaaaa');
         phantom.exit();
     } else {
-        // page.addCookie({
-        //     "_l_g_":"Ug%3D%3D",
-        //     "_m_h5_tk_enc":"44e1a9c3284ab361b7814eaae8b83061",
-        //     "_m_h5_tk":"fc0dfb0fbe0585677450a4562464ee2d_1541581393789",
-        //     "_nk_":"%5Cu5343%5Cu624B%5Cu4FEE%5Cu7F57_11",
-        //     "_tb_token_":"ed311f9318737",
-        //     "cna":"qvQoFEX7FU0CATrSY2azUCbj",
-        //     "cookie1":"URwV2Q5tPIIAuqI6Il8IkxqnuLBP33zywbYVRSOFbf4%3D",
-        //     "cookie2":"19ac3ce5741912e46ede57ab0ca869eb",
-        //     "cookie17":"W8t3v0gDyVm4",
-        //     "cq":"ccp%3D0",
-        //     "csg":"69eaf68a",
-        //     "dnk":"%5Cu5343%5Cu624B%5Cu4FEE%5Cu7F57_11",
-        //     "hng":"CN%7Czh-CN%7CCNY%7C156",
-        //     "isg":"BC4ufOnh-fw-qw0nDaPwIfP8fIQwh6KVG40aCFj3hzH7O86VwLy-O5g592dy-OpB",
-        //     "lgc":"%5Cu5343%5Cu624B%5Cu4FEE%5Cu7F57_11",
-        //     "lid":"%E5%8D%83%E6%89%8B%E4%BF%AE%E7%BD%97_11",
-        //     "login":"true",
-        //     "otherx":"e%3D1%26p%3D*%26s%3D0%26c%3D0%26f%3D0%26g%3D0%26t%3D0",
-        //     "pnm_cku822":"098%23E1hvepvUvbpvUvCkvvvvvjiPR2zwsj1nRLMW1jEUPmPOzjYEPFFyAj3bP2spsjtWRphvCvvvphvPvpvhvv2MMQhCvvOvChCvvvmtvpvIvvCvpvvvvvvvvhNjvvvCWpvvBGwvvvEOvvCj1QvvvypvvhNcvvvmL8yCvv9vvhh50GuCHOyCvv4CvhE20WQEvpCWvw68m3lljd8rVC6s%2BXZz%2BsI6N6qhtE%2BfjXrQpd2XrqpAhjCbFO7t%2B3vXJ9kx6fItn1vDN%2BLUdigBKoiE3c0ShB4AVAdpaXTAdX3AbTwCvvpvvhHh",
-        //     "sg":"175",
-        //     "swfstore":"219312",
-        //     "tracknick":"%5Cu5343%5Cu624B%5Cu4FEE%5Cu7F57_11",
-        //     "t":"48992099ff496509bc06a684eca439af",
-        //     "uc1":"cookie16=VFC%2FuZ9az08KUQ56dCrZDlbNdA%3D%3D&cookie21=W5iHLLyFfXVRDP8mxoRA8A%3D%3D&cookie15=U%2BGCWk%2F75gdr5Q%3D%3D&existShop=false&pas=0&cookie14=UoTYN4Y3CpHXJA%3D%3D&tag=8&lng=zh_CN",
-        //     "uc3":"vt3=F8dByR%2FJzXzyf7gL1r0%3D&id2=W8t3v0gDyVm4&nk2=pMZ01mlWLxu1Ywg%3D&lg2=U%2BGCWk%2F75gdr5Q%3D%3D",
-        //     "unb":"823146037",
-        //     "whl":"-1%260%260%260",
-        //     "x":"__ll%3D-1%26_ato%3D0",
-        //     "{79029345-2c34-427c-bc7b-9123eee34455}":"value"
-        //
-        // });
-
-        page.open(url, function (status) {
-            //Page is loaded!
-            if (status !== 'success') {
-                console.log('Unable to post!');
-            } else {
-                console.log(page.content);
-            }
-            phantom.exit();
+        page.addCookie({
+            "t":"b20375fdd6a9d7bae6d68ab2e82334ce",
+            "miid":"1041873275663106432",
+            "hng":"N%7Czh-CN%7CCNY%7C156",
+            "cna":"VwF6E06M9gICAZkiHyGOQwbz",
+            "thw":"cn",
+            "_cc_":"W5iHLLyFfA%3D%3D",
+            "tg":"0",
+            "mt":"ci=3_1&np=",
+            "tracknick":"%5Cu5343%5Cu624B%5Cu4FEE%5Cu7F57_11",
+            "lgc":"%5Cu5343%5Cu624B%5Cu4FEE%5Cu7F57_11",
+            "tk_trace":"oTRxOWSBNwn9dPyorMJE%2FoPdY8zfvmw%2Fq5hldpnXy3QUpevB3p8wzyQhDOu1iYWUAQ2O\"CEfi7HUAiLenOK3c8ap3Rzop%2FngrnnKJ2a5ByEhXRQR27KBnEaEGM8tqr1x2iqFTBCoju6jGX0Pvf6J\"qvq0dGdZMJ%2F3dNBuZnZmWzk6sDgXL7D0y396wVS7eS8iKIe3BrpgvmfYDxPjY8rqRi%2FQt8Gd509Ps\"GNgW7mHbRBpHxIYTDgANpm8jVHup%2B151aFKLcUjntmq6fp4vpoU8SthvHGg%3D%3D",
+            "_tb_token_":"e1e8fe138559",
+            "v":"0",
+            "uc1":"cookie16=VT5L2FSpNgq6fDudInPRgavC%2BQ%3D%3D\"cookie21=W5iHLLyFfXVRDP8mxoRA8A%3D%3D&cookie15=U%2BGCWk%2F75gdr5Q%3D%3D\"existShop=false&pas=0&cookie14=UoTYN4kNHIiXuw%3D%3D&tag=8&lng=zh_CN",
+            "sg":"175",
+            "_l_g_":"Ug%3D%3D",
+            "csg":"56693162",
+            "existShop":"MTU0MTgyMTY5Mw%3D%3D",
+            "dnk":"%5Cu5343%5Cu624B%5Cu4FEE%5Cu7F57_11",
+            "_nk_":"5Cu5343%5Cu624B%5Cu4FEE%5Cu7F57_11",
+            "isg":"BHZ2nH2nMSdpO8XEsPwRrt4VxKq4P-ptPAS6D-BfUNn0Ixe9SCWw4RyRPz_qkLLp"
         });
+
+        // page.open(url, function (status) {
+        //     //Page is loaded!
+        //     if (status !== 'success') {
+        //         console.log('Unable to post!');
+        //     } else {
+                console.log(page.content);
+            // }
+            phantom.exit();
+        // });
     }
 });
 
