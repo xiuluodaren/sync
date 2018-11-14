@@ -15,17 +15,20 @@ import org.jsoup.select.Elements;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.swing.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Task {
+public class GetSKUInfo {
 
-    public static String path = "/Users/xiuluo/Desktop";
+    public static String path = "/Users/xiuluo/Desktop/数据同步/";
 
-    public void runTask()
+    public JScrollPane jScrollPane;
+
+    public void skuInfoGet(JTextArea textArea)
     {
 
         //获取商品详情
@@ -37,6 +40,12 @@ public class Task {
             for(String number : numbers)
             {
                 System.out.println("开始获取第" + i + "个商品:" + number + "的SKU信息");
+                if (textArea != null)
+                {
+                    textArea.append("开始获取第" + i + "个商品:" + number + "的SKU信息\r\n");
+                    textArea.paintImmediately(textArea.getBounds());
+                    jScrollPane.getVerticalScrollBar().setValue(jScrollPane.getVerticalScrollBar().getMaximum());
+                }
                 String url = "https://detail.tmall.com/item.htm?id=" + number;
 //            String url = "https://mdskip.taobao.com/core/initItemDetail.htm?itemId=44163831176";
 
@@ -44,7 +53,7 @@ public class Task {
 
                 HttpURLConnection connection = (HttpURLConnection) httpUrl.openConnection();
                 connection.setRequestMethod("GET");
-                connection.setRequestProperty("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:59.0) Gecko/20100101 Firefox/59.0");
+                connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:59.0) Gecko/20100101 Firefox/59.0");
                 connection.setRequestProperty("Referer", "https://detail.tmall.com/item.htm?id=" + number);
 
                 if (200 == connection.getResponseCode()) {
@@ -60,23 +69,31 @@ public class Task {
                     String html = baos.toString("GBK");
 
                     //得到的页面
-//                System.out.println(html);
+                    //                System.out.println(html);
 
                     String json = analysisHTML(html);
 
-                    if (json == null)
-                    {
+                    if (json == null) {
                         System.out.println("获取" + number + "的SKU信息失败");
+                        if (textArea != null) {
+                            textArea.append("获取" + number + "的SKU信息失败\r\n");
+                            textArea.paintImmediately(textArea.getBounds());
+                            jScrollPane.getVerticalScrollBar().setValue(jScrollPane.getVerticalScrollBar().getMaximum());
+                        }
                         i++;
                         continue;
                     }
 
                     System.out.println("获取" + number + "的SKU信息成功");
+                    if (textArea != null) {
+                        textArea.append("获取" + number + "的SKU信息成功\r\n");
+                        textArea.paintImmediately(textArea.getBounds());
+                        jScrollPane.getVerticalScrollBar().setValue(jScrollPane.getVerticalScrollBar().getMaximum());
+                    }
                     File file = new File(path + "/sku/" + number + ".json");
 
                     File tempFile = new File(path + "/sku/");
-                    if (!tempFile.isDirectory())
-                    {
+                    if (!tempFile.isDirectory()) {
                         tempFile.mkdirs();
                     }
 
@@ -86,12 +103,19 @@ public class Task {
                     printWriter.flush();
                     printWriter.close();
 
-                    i++;
-
                 }
+
+                i++;
+
             }
 
             System.out.println("全部获取完毕,请到" + path + "/sku/目录查看");
+            if (textArea != null)
+            {
+                textArea.append("全部获取完毕,请到" + path + "/sku/目录查看\r\n");
+                textArea.paintImmediately(textArea.getBounds());
+                jScrollPane.getVerticalScrollBar().setValue(jScrollPane.getVerticalScrollBar().getMaximum());
+            }
 
         }catch (Exception e){
             e.printStackTrace();

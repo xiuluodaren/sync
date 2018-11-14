@@ -10,7 +10,7 @@ public class GenerateData {
     public void generate()
     {
         try {
-            File file = new File(Task.path + "/sku/");
+            File file = new File(GetSKUInfo.path + "/sku/");
             if (file.isDirectory())
             {
                 File[] files = file.listFiles();
@@ -43,13 +43,13 @@ public class GenerateData {
                     {
                         JSONObject skuJSON = JSON.parseObject(skuJSONStr);
 
-                        if (!new File(Task.path + "/promotions/").isDirectory())
+                        if (!new File(GetSKUInfo.path + "/promotions/").isDirectory())
                         {
                             System.out.println("promotion目录不存在");
                             return;
                         }
 
-                        File pFile = new File(Task.path + "/promotions/" + f.getName());
+                        File pFile = new File(GetSKUInfo.path + "/promotions/" + f.getName());
 
                         FileInputStream pFileInputStream = new FileInputStream(pFile);
 
@@ -108,9 +108,9 @@ public class GenerateData {
 
 //                            System.out.println(JSON.toJSONString(skuList));
 
-                            File rFile = new File(Task.path + "/result/" + f.getName());
+                            File rFile = new File(GetSKUInfo.path + "/result/" + f.getName());
 
-                            File tempFile = new File(Task.path + "/result/");
+                            File tempFile = new File(GetSKUInfo.path + "/result/");
                             if (!tempFile.isDirectory())
                             {
                                 tempFile.mkdirs();

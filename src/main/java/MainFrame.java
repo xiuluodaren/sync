@@ -14,6 +14,8 @@ public class MainFrame {
 
     public final JTextArea rTextArea = new JTextArea();
 
+    final JScrollPane js = new JScrollPane(rTextArea);
+
     public MainFrame()
     {
         final String url = "https://detail.tmall.com/item.htm?id=44163831176";
@@ -47,7 +49,12 @@ public class MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("点击");
-                browser.executeJavaScript("alert('java調用了js')");
+//                browser.executeJavaScript("alert('java調用了js')");
+
+                GetSKUInfo getSKUInfo = new GetSKUInfo();
+                getSKUInfo.jScrollPane = js;
+                getSKUInfo.skuInfoGet(rTextArea);
+
             }
         };
         jButton.addActionListener(actionListener);
@@ -63,27 +70,24 @@ public class MainFrame {
         rPanel.setVisible(true);
         frame.add(rPanel,BorderLayout.EAST);
 
-        rTextArea.setBounds(0,0,(int)rPanel.getPreferredSize().getWidth(),rPanel.getHeight());
+        rTextArea.setBounds(0,0,100,100);
         rTextArea.setVisible(true);
-//        rTextArea.setBackground(new Color(200,200,200));
-        rTextArea.setBackground(Color.red);
+        rTextArea.setBackground(new Color(200,200,200));
         rTextArea.setSelectedTextColor(Color.RED);
         rTextArea.setLineWrap(true);        //激活自动换行功能
         rTextArea.setWrapStyleWord(true);
-//        rPanel.add(rTextArea);
+        rPanel.add(rTextArea);
 
-        JScrollPane js=new JScrollPane(rTextArea);
-        //分别设置水平和垂直滚动条自动出现
-        js.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        js.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         js.setVisible(true);
-        rPanel.add(js);
+        js.setBounds(0,0,200,200);
+        rPanel.add(js,BorderLayout.CENTER);
 
         //添加监听，监听尺寸变化
         ComponentListener componentListener = new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
                 rTextArea.setBounds(0,0,(int)e.getComponent().getPreferredSize().getWidth(),e.getComponent().getHeight());
+                js.setBounds(0,0,(int)e.getComponent().getPreferredSize().getWidth(),e.getComponent().getHeight());
             }
 
             @Override
