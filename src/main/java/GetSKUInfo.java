@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 public class GetSKUInfo {
 
     public static String path = "/Users/xiuluo/Desktop/数据同步/";
+//    public static String path = "../";
 
     public JScrollPane jScrollPane;
 
